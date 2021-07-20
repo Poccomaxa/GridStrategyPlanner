@@ -337,8 +337,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: -0.17272146, y: 0.8255326, z: -0.4082982, w: -0.3492217}
-  m_LocalPosition: {x: 1.9183404, y: 4.499331, z: 2.0365837}
+  m_LocalRotation: {x: 0.44332793, y: -0.0011051297, z: 0.0005459256, w: 0.8963587}
+  m_LocalPosition: {x: -0.5388945, y: 4.499332, z: -4.692154}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -374,7 +374,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71901e34662c939408c4e9b9bf473de5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CameraSensitivy: 0.1
+  CameraSensitivy: 0.15
 --- !u!4 &1575199739
 Transform:
   m_ObjectHideFlags: 0
@@ -466,6 +466,22 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 56bde0f9-dd1f-4b06-9f35-929e9c83c1ae
     m_ActionName: UI/TrackedDeviceOrientation
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1575199738}
+        m_TargetAssemblyTypeName: Controller, Assembly-CSharp
+        m_MethodName: OnRotate
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 91172c45-c078-429a-8621-be8a909baeeb
+    m_ActionName: UI/Rotate[/Keyboard/q,/Keyboard/e]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: UI
