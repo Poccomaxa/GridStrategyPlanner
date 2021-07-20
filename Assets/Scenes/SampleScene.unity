@@ -375,6 +375,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CameraSensitivy: 0.15
+  CameraRotationSensitivity: 2
+  MinZoom: 5
+  MaxZoom: 30
+  Steps: 5
 --- !u!4 &1575199739
 Transform:
   m_ObjectHideFlags: 0
@@ -447,7 +451,19 @@ MonoBehaviour:
     m_ActionId: 70357546-bd5e-4421-b207-4902c1989111
     m_ActionName: UI/Click[/Mouse/leftButton]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1575199738}
+        m_TargetAssemblyTypeName: Controller, Assembly-CSharp
+        m_MethodName: OnZoom
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: db96d919-e3c2-42ec-b1c1-506dd2a45ca5
     m_ActionName: UI/ScrollWheel[/Mouse/scroll]
   - m_PersistentCalls:
