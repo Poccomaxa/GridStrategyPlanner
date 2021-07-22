@@ -16,6 +16,9 @@ public class Controller : MonoBehaviour
     public float MaxZoom;
     public int Steps;
 
+    public GameObject BrushPrefab;
+    public GameObject Brush;
+
     private void Awake()
     {
         PlayerInput = GetComponent<PlayerInput>();
@@ -26,6 +29,8 @@ public class Controller : MonoBehaviour
     void Start()
     {
         UpdateZoom(0);
+
+        Brush = GameObject.Instantiate(BrushPrefab);
     }
 
     private void OnDestroy()
@@ -90,12 +95,26 @@ public class Controller : MonoBehaviour
 
     public void OnZoom(InputAction.CallbackContext callbackContext)
     {
-
         float ScrollValue = callbackContext.ReadValue<Vector2>().y;
         if (Mathf.Abs(ScrollValue) > float.Epsilon)
         {
             int Scroll = (int)Mathf.Sign(ScrollValue) * -1;
             UpdateZoom(Scroll);            
+        }
+    }
+
+    public void OnPoint(InputAction.CallbackContext callbackContext)
+    {
+        if (MainCamera)
+        {
+            Vector2 MousePosition = callbackContext.ReadValue<Vector2>();
+            Ray CameraRay = MainCamera.ScreenPointToRay(MousePosition);
+
+            if (new Plane(Vector3.up, Vector3.zero).Raycast(CameraRay, out float distance))
+            {
+                Vector3 PointAt = CameraRay.origin + CameraRay.direction * distance;
+                Brush.transform.position = PointAt;
+            }
         }
     }
 }
