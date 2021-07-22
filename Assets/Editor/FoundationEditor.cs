@@ -46,6 +46,8 @@ public class FoundationEditor : Editor
                     CellCoordinates.y = Mathf.RoundToInt((Cell.transform.position.z - Min.y) / Cell.Size.y);
 
                     foundation.FoundationGrid[CellCoordinates.x, CellCoordinates.y] = true;
+                    Vector2 CorrectedPosition = Min + CellCoordinates * CellExample.Size;
+                    Cell.transform.position = new Vector3(CorrectedPosition.x, 0, CorrectedPosition.y);
                 }
 
                 string TextGrid = "\n";
@@ -56,8 +58,10 @@ public class FoundationEditor : Editor
                         TextGrid += foundation.FoundationGrid[i, j] ? "X" : "_";
                     }
                     TextGrid += "\n";
-                }
+                }                
                 Debug.Log(TextGrid);
+
+                EditorUtility.SetDirty(target);
             }
         }
     }

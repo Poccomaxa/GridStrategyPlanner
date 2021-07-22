@@ -379,6 +379,8 @@ MonoBehaviour:
   MinZoom: 5
   MaxZoom: 30
   Steps: 5
+  BrushPrefab: {fileID: 2313907142573691875, guid: 58dba70a435d62a4ca3cfc4805c39b6b, type: 3}
+  Brush: {fileID: 0}
 --- !u!4 &1575199739
 Transform:
   m_ObjectHideFlags: 0
@@ -443,7 +445,19 @@ MonoBehaviour:
     m_ActionId: d51dba9d-393e-4efb-8033-838f8dc5fc0c
     m_ActionName: UI/Cancel[/Keyboard/escape]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1575199738}
+        m_TargetAssemblyTypeName: Controller, Assembly-CSharp
+        m_MethodName: OnPoint
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: adef55d2-4abb-46e8-a318-febfc81f182a
     m_ActionName: UI/Point[/Mouse/position]
   - m_PersistentCalls:
