@@ -65,15 +65,15 @@ public class Controller : MonoBehaviour
 
     // Update is called once per frame
     void FixedUpdate()
-    {        
-        Vector2 Orientation = new Vector2(MainCamera.transform.forward.x, MainCamera.transform.forward.z);
-        Orientation.Normalize();
-        float Angle = Vector2.SignedAngle(Vector2.up, Orientation);        
-        Vector2 CameraSpeedRotated = Quaternion.Euler(0, 0, Angle) * CameraSpeed;
-        MainCamera.transform.position += new Vector3(CameraSpeedRotated.x, 0, CameraSpeedRotated.y);
-
+    {
         if (CameraPlaneIntersection(out Vector3 RotateAround))
         {
+            Vector2 Orientation = new Vector2(MainCamera.transform.forward.x, MainCamera.transform.forward.z);
+            Orientation.Normalize();
+            float Angle = Vector2.SignedAngle(Vector2.up, Orientation);
+            Vector2 CameraSpeedRotated = Quaternion.Euler(0, 0, Angle) * CameraSpeed;
+            MainCamera.transform.position += new Vector3(CameraSpeedRotated.x, 0, CameraSpeedRotated.y);
+
             MainCamera.transform.RotateAround(RotateAround, Vector3.up, RotationDirectionSpeed);
         }        
     }
