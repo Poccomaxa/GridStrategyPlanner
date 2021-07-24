@@ -130,4 +130,13 @@ public class Controller : MonoBehaviour
             }
         }
     }
+
+    public void OnClick(InputAction.CallbackContext callbackContext)
+    {
+        if (mainCamera && brush)
+        {
+            GameObject PlacedObject = GameObject.Instantiate(brush.gameObject);
+            PlacedObject.transform.position = brush.transform.position;
+        }
+    }
 }

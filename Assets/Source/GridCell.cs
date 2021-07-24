@@ -4,5 +4,7 @@ using UnityEngine;
 
 public class GridCell : MonoBehaviour
 {
-    public Vector2 size;    
+    public Vector2 size;
+
+    public bool occupied = false;
 }

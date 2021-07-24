@@ -56,4 +56,14 @@ public class Foundation : MonoBehaviour
         cellIntPosition.y = Mathf.Clamp(Mathf.RoundToInt(cellPosition.y), 0, foundationGrid.GetLength(1) - 1);
         return foundationGrid[cellIntPosition.x, cellIntPosition.y];
     }
+
+    public void Place(Foundation objectToPlace, GridCell placeOn, GridCell place)
+    {
+
+    }
+
+    public bool CheckPlacement(Foundation checkWith)
+    {
+        return true;
+    }
 }
