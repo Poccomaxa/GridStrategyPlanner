@@ -170,7 +170,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 3890827683557297744}
   - {fileID: 7709071091044431780}
-  serializedGridDimensions: {x: 4, y: 4}
+  gridSize: {x: 4, y: 4}
   min: {x: -1.19, y: -1.67}
   max: {x: 1.81, y: 1.33}
   cellSize: {x: 1, y: 1}

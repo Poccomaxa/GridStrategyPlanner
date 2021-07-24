@@ -20,6 +20,8 @@ public class Controller : MonoBehaviour
     public Foundation brush;
     public Foundation MainGrid;
 
+    private Vector2Int placementIndex;
+
     private void Awake()
     {
         playerInput = GetComponent<PlayerInput>();
@@ -115,28 +117,20 @@ public class Controller : MonoBehaviour
             {
                 Vector3 PointAt = CameraRay.origin + CameraRay.direction * distance;
 
-                GridCell closestCell = MainGrid.GetClosestCell(PointAt);
-                //Debug.LogFormat("Closest grid cell: {0}", closestCell.transform.position);
-                if (closestCell != null)
-                {
-                    GridCell closestBrushCell = brush.GetClosestCell(new Vector3(0, 0, 0));
-                    //Debug.LogFormat("Closest brush cell: {0}", closestBrushCell.transform.localPosition);
-                    brush.transform.position = closestCell.transform.position - closestBrushCell.transform.localPosition;
-                }
-                else
-                {
-                    brush.transform.position = PointAt;
-                }
+                Vector3 closestCellPosition = MainGrid.GetClosestCellCenter(PointAt);                
+                Vector3 closestBrushCellPosition = brush.GetClosestCellCenter(new Vector3(0, 0, 0));
+
+                placementIndex = MainGrid.GetClosestCellIndex(PointAt) - brush.GetClosestCellIndex(new Vector3(0, 0, 0));
+                brush.transform.position = closestCellPosition - closestBrushCellPosition;
             }
         }
     }
 
     public void OnClick(InputAction.CallbackContext callbackContext)
     {
-        if (mainCamera && brush)
+        if (callbackContext.control.IsPressed() && mainCamera && brush)
         {
-            GameObject PlacedObject = GameObject.Instantiate(brush.gameObject);
-            PlacedObject.transform.position = brush.transform.position;
+            MainGrid.CheckAndPlace(brush, placementIndex);            
         }
     }
 }
