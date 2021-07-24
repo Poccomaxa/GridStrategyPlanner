@@ -1245,6 +1245,9 @@ MonoBehaviour:
   - {fileID: 1075022531833063780}
   - {fileID: 4564077676204072728}
   serializedGridDimensions: {x: 30, y: 20}
+  min: {x: -4.5, y: -14.5}
+  max: {x: 24.5, y: 4.5}
+  cellSize: {x: 1, y: 1}
 --- !u!1001 &22807327847085529
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -4,13 +4,17 @@ using UnityEngine;
 using System.Linq;
 
 public class Foundation : MonoBehaviour
-{    
+{
     private GridCell[,] foundationGrid;
 
     [SerializeField]
     private GridCell[] serializedGrid;
     [SerializeField]
     private Vector2Int serializedGridDimensions;
+
+    public Vector2 min;    
+    public Vector2 max;
+    public Vector2 cellSize;
 
     public GridCell[,] FoundationGrid
     {
@@ -44,28 +48,12 @@ public class Foundation : MonoBehaviour
 
     public GridCell GetClosestCell(Vector3 Position)
     {
-        IEnumerable <GridCell> enumerableGrid = foundationGrid.Cast<GridCell>();
-        float minDistance = enumerableGrid.Min(gridCell =>
-        {
-            if (gridCell != null)
-            {
-                return (gridCell.transform.position - Position).magnitude;
-            }
-            else
-            {
-                return float.MaxValue;
-            }
-        });
-        return enumerableGrid.First(gridCell =>
-        {
-            if (gridCell != null)
-            {
-                return (gridCell.transform.position - Position).magnitude <= minDistance;
-            }
-            else
-            {
-                return false;
-            }
-        });
+        Vector2 position2D = new Vector2(Position.x, Position.z);
+
+        Vector2 cellPosition = (position2D - min) / cellSize;
+        Vector2Int cellIntPosition = Vector2Int.zero;
+        cellIntPosition.x = Mathf.Clamp(Mathf.RoundToInt(cellPosition.x), 0, foundationGrid.GetLength(0) - 1);
+        cellIntPosition.y = Mathf.Clamp(Mathf.RoundToInt(cellPosition.y), 0, foundationGrid.GetLength(1) - 1);
+        return foundationGrid[cellIntPosition.x, cellIntPosition.y];
     }
 }

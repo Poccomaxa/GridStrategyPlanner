@@ -116,11 +116,11 @@ public class Controller : MonoBehaviour
                 Vector3 PointAt = CameraRay.origin + CameraRay.direction * distance;
 
                 GridCell closestCell = MainGrid.GetClosestCell(PointAt);
-                Debug.LogFormat("Closest grid cell: {0}", closestCell.transform.position);
+                //Debug.LogFormat("Closest grid cell: {0}", closestCell.transform.position);
                 if (closestCell != null)
                 {
                     GridCell closestBrushCell = brush.GetClosestCell(new Vector3(0, 0, 0));
-                    Debug.LogFormat("Closest brush cell: {0}", closestBrushCell.transform.localPosition);
+                    //Debug.LogFormat("Closest brush cell: {0}", closestBrushCell.transform.localPosition);
                     brush.transform.position = closestCell.transform.position - closestBrushCell.transform.localPosition;
                 }
                 else
