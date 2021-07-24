@@ -15,8 +15,7 @@ public class Controller : MonoBehaviour
     public float minZoom;
     public float maxZoom;
     public int steps;
-
-    public GameObject brushPrefab;
+    
     public Foundation brush;
     public Foundation MainGrid;
 
@@ -33,7 +32,7 @@ public class Controller : MonoBehaviour
     {
         UpdateZoom(0);
 
-        brush = GameObject.Instantiate(brushPrefab).GetComponent<Foundation>();
+        
     }
 
     private void OnDestroy()
@@ -132,5 +131,21 @@ public class Controller : MonoBehaviour
         {
             MainGrid.CheckAndPlace(brush, placementIndex);            
         }
+    }
+
+    public void OnDeleteTool()
+    {
+        GameObject.Destroy(brush.gameObject);
+        brush = null;
+    }
+
+    public void OnSelectBuilding(Foundation BuildingPrefab)
+    {
+        if (brush)
+        {
+            GameObject.Destroy(brush.gameObject);
+        }
+        brush = GameObject.Instantiate(BuildingPrefab).GetComponent<Foundation>();
+        brush.name = BuildingPrefab.name + "Brush";
     }
 }

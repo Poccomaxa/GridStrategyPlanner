@@ -46,6 +46,11 @@ public class Foundation : MonoBehaviour
         }
     }
 
+    public void RotateCV()
+    {
+
+    }
+
     public Vector2Int GetClosestCellIndex(Vector3 Position)
     {
         Vector2 position2D = new Vector2(Position.x, Position.z);
