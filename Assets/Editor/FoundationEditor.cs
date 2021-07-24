@@ -29,13 +29,13 @@ public class FoundationEditor : Editor
 
                 Debug.LogFormat("Size of grid is: ({0})", GridSize);
 
-                foundation.foundationGrid = new GridCell[GridSize.x, GridSize.y];
+                GridCell[,] foundationGrid = new GridCell[GridSize.x, GridSize.y];
 
-                for (int i = 0; i < foundation.foundationGrid.GetLength(0); ++i)
+                for (int i = 0; i < foundationGrid.GetLength(0); ++i)
                 {
-                    for (int j = 0; j < foundation.foundationGrid.GetLength(1); ++j)
+                    for (int j = 0; j < foundationGrid.GetLength(1); ++j)
                     {
-                        foundation.foundationGrid[i, j] = null;
+                        foundationGrid[i, j] = null;
                     }                    
                 }
 
@@ -45,21 +45,23 @@ public class FoundationEditor : Editor
                     CellCoordinates.x = Mathf.RoundToInt((Cell.transform.position.x - Min.x) / Cell.size.x);
                     CellCoordinates.y = Mathf.RoundToInt((Cell.transform.position.z - Min.y) / Cell.size.y);
 
-                    foundation.foundationGrid[CellCoordinates.x, CellCoordinates.y] = Cell;
+                    foundationGrid[CellCoordinates.x, CellCoordinates.y] = Cell;
                     Vector2 CorrectedPosition = Min + CellCoordinates * CellExample.size;
                     Cell.transform.position = new Vector3(CorrectedPosition.x, 0, CorrectedPosition.y);
                 }
 
                 string TextGrid = "\n";
-                for (int i = 0; i < foundation.foundationGrid.GetLength(0); ++i)
+                for (int i = 0; i < foundationGrid.GetLength(0); ++i)
                 {                    
-                    for (int j = 0; j < foundation.foundationGrid.GetLength(1); ++j)
+                    for (int j = 0; j < foundationGrid.GetLength(1); ++j)
                     {
-                        TextGrid += foundation.foundationGrid[i, j] ? "X" : "_";
+                        TextGrid += foundationGrid[i, j] ? "X" : "_";
                     }
                     TextGrid += "\n";
                 }                
                 Debug.Log(TextGrid);
+
+                foundation.SetFoundationGrid(foundationGrid);
 
                 EditorUtility.SetDirty(target);
             }

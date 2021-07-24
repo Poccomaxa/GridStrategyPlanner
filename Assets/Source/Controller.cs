@@ -16,8 +16,8 @@ public class Controller : MonoBehaviour
     public float maxZoom;
     public int steps;
 
-    public GameObject BrushPrefab;
-    public GameObject Brush;
+    public GameObject brushPrefab;
+    public Foundation brush;
     public Foundation MainGrid;
 
     private void Awake()
@@ -31,7 +31,7 @@ public class Controller : MonoBehaviour
     {
         UpdateZoom(0);
 
-        Brush = GameObject.Instantiate(BrushPrefab);
+        brush = GameObject.Instantiate(brushPrefab).GetComponent<Foundation>();
     }
 
     private void OnDestroy()
@@ -106,7 +106,7 @@ public class Controller : MonoBehaviour
 
     public void OnPoint(InputAction.CallbackContext callbackContext)
     {
-        if (mainCamera)
+        if (mainCamera && brush)
         {
             Vector2 MousePosition = callbackContext.ReadValue<Vector2>();
             Ray CameraRay = mainCamera.ScreenPointToRay(MousePosition);
@@ -115,14 +115,17 @@ public class Controller : MonoBehaviour
             {
                 Vector3 PointAt = CameraRay.origin + CameraRay.direction * distance;
 
-                GridCell ClosestCell = MainGrid.GetClosestCell(PointAt);
-                if (ClosestCell != null)
+                GridCell closestCell = MainGrid.GetClosestCell(PointAt);
+                Debug.LogFormat("Closest grid cell: {0}", closestCell.transform.position);
+                if (closestCell != null)
                 {
-
+                    GridCell closestBrushCell = brush.GetClosestCell(new Vector3(0, 0, 0));
+                    Debug.LogFormat("Closest brush cell: {0}", closestBrushCell.transform.localPosition);
+                    brush.transform.position = closestCell.transform.position - closestBrushCell.transform.localPosition;
                 }
                 else
                 {
-                    Brush.transform.position = PointAt;
+                    brush.transform.position = PointAt;
                 }
             }
         }
