@@ -24,38 +24,38 @@ public class FoundationEditor : Editor
                 Max.y = Cells.Max(gridCell => gridCell.transform.position.z);
 
                 Vector2Int GridSize = new Vector2Int();
-                GridSize.x = Mathf.RoundToInt((Max.x - Min.x) / CellExample.Size.x) + 1;
-                GridSize.y = Mathf.RoundToInt((Max.y - Min.y) / CellExample.Size.y) + 1;
+                GridSize.x = Mathf.RoundToInt((Max.x - Min.x) / CellExample.size.x) + 1;
+                GridSize.y = Mathf.RoundToInt((Max.y - Min.y) / CellExample.size.y) + 1;
 
                 Debug.LogFormat("Size of grid is: ({0})", GridSize);
 
-                foundation.FoundationGrid = new bool[GridSize.x, GridSize.y];
+                foundation.foundationGrid = new GridCell[GridSize.x, GridSize.y];
 
-                for (int i = 0; i < foundation.FoundationGrid.GetLength(0); ++i)
+                for (int i = 0; i < foundation.foundationGrid.GetLength(0); ++i)
                 {
-                    for (int j = 0; j < foundation.FoundationGrid.GetLength(1); ++j)
+                    for (int j = 0; j < foundation.foundationGrid.GetLength(1); ++j)
                     {
-                        foundation.FoundationGrid[i, j] = false;
+                        foundation.foundationGrid[i, j] = null;
                     }                    
                 }
 
                 foreach (GridCell Cell in Cells)
                 {
                     Vector2Int CellCoordinates = new Vector2Int();
-                    CellCoordinates.x = Mathf.RoundToInt((Cell.transform.position.x - Min.x) / Cell.Size.x);
-                    CellCoordinates.y = Mathf.RoundToInt((Cell.transform.position.z - Min.y) / Cell.Size.y);
+                    CellCoordinates.x = Mathf.RoundToInt((Cell.transform.position.x - Min.x) / Cell.size.x);
+                    CellCoordinates.y = Mathf.RoundToInt((Cell.transform.position.z - Min.y) / Cell.size.y);
 
-                    foundation.FoundationGrid[CellCoordinates.x, CellCoordinates.y] = true;
-                    Vector2 CorrectedPosition = Min + CellCoordinates * CellExample.Size;
+                    foundation.foundationGrid[CellCoordinates.x, CellCoordinates.y] = Cell;
+                    Vector2 CorrectedPosition = Min + CellCoordinates * CellExample.size;
                     Cell.transform.position = new Vector3(CorrectedPosition.x, 0, CorrectedPosition.y);
                 }
 
                 string TextGrid = "\n";
-                for (int i = 0; i < foundation.FoundationGrid.GetLength(0); ++i)
+                for (int i = 0; i < foundation.foundationGrid.GetLength(0); ++i)
                 {                    
-                    for (int j = 0; j < foundation.FoundationGrid.GetLength(1); ++j)
+                    for (int j = 0; j < foundation.foundationGrid.GetLength(1); ++j)
                     {
-                        TextGrid += foundation.FoundationGrid[i, j] ? "X" : "_";
+                        TextGrid += foundation.foundationGrid[i, j] ? "X" : "_";
                     }
                     TextGrid += "\n";
                 }                

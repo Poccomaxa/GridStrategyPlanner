@@ -5,24 +5,25 @@ using UnityEngine.InputSystem;
 
 public class Controller : MonoBehaviour
 {
-    PlayerInput PlayerInput;
-    Camera MainCamera;
-    Vector2 CameraSpeed;
-    float RotationDirectionSpeed;
+    PlayerInput playerInput;
+    Camera mainCamera;
+    Vector2 cameraSpeed;
+    float rotationDirectionSpeed;
 
-    public float CameraSensitivy;
-    public float CameraRotationSensitivity;
-    public float MinZoom;
-    public float MaxZoom;
-    public int Steps;
+    public float cameraSensitivy;
+    public float cameraRotationSensitivity;
+    public float minZoom;
+    public float maxZoom;
+    public int steps;
 
     public GameObject BrushPrefab;
     public GameObject Brush;
+    public Foundation MainGrid;
 
     private void Awake()
     {
-        PlayerInput = GetComponent<PlayerInput>();
-        MainCamera = Camera.main;
+        playerInput = GetComponent<PlayerInput>();
+        mainCamera = Camera.main;
     }
 
     // Start is called before the first frame update
@@ -42,7 +43,7 @@ public class Controller : MonoBehaviour
     {
         Plane Floor = new Plane(Vector3.up, Vector3.zero);
         float Enter = 0;
-        Ray LookingForFloor = new Ray(MainCamera.transform.position, MainCamera.transform.forward);
+        Ray LookingForFloor = new Ray(mainCamera.transform.position, mainCamera.transform.forward);
         if (Floor.Raycast(LookingForFloor, out Enter))
         {
             Intersection = LookingForFloor.origin + LookingForFloor.direction * Enter;
@@ -57,14 +58,14 @@ public class Controller : MonoBehaviour
     {
         if (CameraPlaneIntersection(out Vector3 PlaneIntersection))
         {
-            Vector3 CameraArm = MainCamera.transform.position - PlaneIntersection;
-            float CurrentDistance = Mathf.Max(0, CameraArm.magnitude - MinZoom);
-            float StepDistance = (MaxZoom - MinZoom) / Steps;
+            Vector3 CameraArm = mainCamera.transform.position - PlaneIntersection;
+            float CurrentDistance = Mathf.Max(0, CameraArm.magnitude - minZoom);
+            float StepDistance = (maxZoom - minZoom) / steps;
             int CurrentSteps = Mathf.RoundToInt(CurrentDistance / StepDistance);
-            CurrentSteps = Mathf.Clamp(CurrentSteps + (int)Scroll, 0, Steps);
+            CurrentSteps = Mathf.Clamp(CurrentSteps + (int)Scroll, 0, steps);
 
-            float NewDistance = CurrentSteps * StepDistance + MinZoom;
-            MainCamera.transform.position = PlaneIntersection + CameraArm.normalized * NewDistance;
+            float NewDistance = CurrentSteps * StepDistance + minZoom;
+            mainCamera.transform.position = PlaneIntersection + CameraArm.normalized * NewDistance;
         }
     }
 
@@ -73,24 +74,24 @@ public class Controller : MonoBehaviour
     {
         if (CameraPlaneIntersection(out Vector3 RotateAround))
         {
-            Vector2 Orientation = new Vector2(MainCamera.transform.forward.x, MainCamera.transform.forward.z);
+            Vector2 Orientation = new Vector2(mainCamera.transform.forward.x, mainCamera.transform.forward.z);
             Orientation.Normalize();
             float Angle = Vector2.SignedAngle(Vector2.up, Orientation);
-            Vector2 CameraSpeedRotated = Quaternion.Euler(0, 0, Angle) * CameraSpeed;
-            MainCamera.transform.position += new Vector3(CameraSpeedRotated.x, 0, CameraSpeedRotated.y);
+            Vector2 CameraSpeedRotated = Quaternion.Euler(0, 0, Angle) * cameraSpeed;
+            mainCamera.transform.position += new Vector3(CameraSpeedRotated.x, 0, CameraSpeedRotated.y);
 
-            MainCamera.transform.RotateAround(RotateAround, Vector3.up, RotationDirectionSpeed);
+            mainCamera.transform.RotateAround(RotateAround, Vector3.up, rotationDirectionSpeed);
         }        
     }
 
     public void OnNavigate(InputAction.CallbackContext callbackContext)
     {        
-        CameraSpeed = callbackContext.ReadValue<Vector2>() * CameraSensitivy;     
+        cameraSpeed = callbackContext.ReadValue<Vector2>() * cameraSensitivy;     
     }
 
     public void OnRotate(InputAction.CallbackContext callbackContext)
     {
-        RotationDirectionSpeed = callbackContext.ReadValue<System.Single>() * CameraRotationSensitivity;        
+        rotationDirectionSpeed = callbackContext.ReadValue<System.Single>() * cameraRotationSensitivity;        
     }
 
     public void OnZoom(InputAction.CallbackContext callbackContext)
@@ -105,15 +106,24 @@ public class Controller : MonoBehaviour
 
     public void OnPoint(InputAction.CallbackContext callbackContext)
     {
-        if (MainCamera)
+        if (mainCamera)
         {
             Vector2 MousePosition = callbackContext.ReadValue<Vector2>();
-            Ray CameraRay = MainCamera.ScreenPointToRay(MousePosition);
+            Ray CameraRay = mainCamera.ScreenPointToRay(MousePosition);
 
             if (new Plane(Vector3.up, Vector3.zero).Raycast(CameraRay, out float distance))
             {
                 Vector3 PointAt = CameraRay.origin + CameraRay.direction * distance;
-                Brush.transform.position = PointAt;
+
+                GridCell ClosestCell = MainGrid.GetClosestCell(PointAt);
+                if (ClosestCell != null)
+                {
+
+                }
+                else
+                {
+                    Brush.transform.position = PointAt;
+                }
             }
         }
     }

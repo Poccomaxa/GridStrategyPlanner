@@ -4,16 +4,10 @@ using UnityEngine;
 
 public class Foundation : MonoBehaviour
 {
-    public bool[,] FoundationGrid;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public GridCell[,] foundationGrid;
 
-    // Update is called once per frame
-    void Update()
+    public GridCell GetClosestCell(Vector3 Position)
     {
-        
+        return null;
     }
 }
